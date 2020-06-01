@@ -1,6 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -56,6 +60,26 @@ def update(id):
             return "There was a problem updating that task"
     else:
         return render_template("update.html", task=task_to_update)
+
+#####################################################
+
+
+@app.route("/checkprice", methods=["POST"])
+def checkPrice():
+    options = Options()
+    options.headless = True
+    browser = webdriver.Firefox(
+        options=options, executable_path=r'C:/Users/Olga/Documents/geckodriver.exe')
+    url = request.args.get('url')
+    htmlTag = request.args.get('tag')
+    print(url, htmlTag)
+    browser.get(url)
+    time.sleep(5)  # js loading page waiting
+    html = browser.page_source
+    soup = BeautifulSoup(html, 'lxml')
+    result = soup.findAll(attrs={"class": htmlTag})
+    print(result)
+    return jsonify(price=result[0].get_text())
 
 
 if __name__ == "__main__":
