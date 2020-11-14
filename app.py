@@ -88,9 +88,9 @@ def checkPrice():
 @app.route("/doctoravailable", methods=["GET"])
 def doctorAvailable():
     chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.binary_location = '/app/.apt/usr/bin/google_chrome'
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.binary_location = '/app/.apt/usr/bin/google_chrome'
     #browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
     browser = webdriver.Chrome(executable_path="app/.chromedriver/bin/chromedriver", chrome_options=chrome_options)
     #url = request.args.get('url')
