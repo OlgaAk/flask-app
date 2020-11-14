@@ -90,7 +90,7 @@ def doctorAvailable():
     options = Options()
     options.headless = True
     #browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
-    browser = webdriver.Chrome(executable_path="app/.chromedriver/bin/chromedriver")
+    browser = webdriver.Chrome(executable_path="./chromedriver")
     #url = request.args.get('url')
     #htmlTag = request.args.get('tag')
     #print(url, htmlTag)
