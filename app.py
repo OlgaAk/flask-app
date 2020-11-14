@@ -7,8 +7,11 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-#from webdriver_manager.chrome import ChromeDriverManager 
+#from webdriver_manager.chrome import ChromeDriverManager
 import time
+
+GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -85,25 +88,27 @@ def checkPrice():
     print(result)
     return jsonify(price=result[0].get_text())
 
+
 @app.route("/doctoravailable", methods=["GET"])
 def doctorAvailable():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
-    chrome_options.binary_location = '/app/.apt/usr/bin/google_chrome'
-    #browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
-    browser = webdriver.Chrome(executable_path="app/.chromedriver/bin/chromedriver", chrome_options=chrome_options)
+    chrome_options.binary_location = GOOGLE_CHROME_PATH
+    # browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
+    browser = webdriver.Chrome(
+        executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
     #url = request.args.get('url')
     #htmlTag = request.args.get('tag')
     #print(url, htmlTag)
     url = "https://gorzdrav.spb.ru/service-free-schedule#%5B%7B%22district%22:%2217%22%7D,%7B%22lpu%22:%22265%22%7D,%7B%22speciality%22:%222080%22%7D,%7B%22doctor%22:%22138%22%7D%5D"
     htmlTag = "datepicker-slot"
-    browser.get(url) 
+    browser.get(url)
     time.sleep(5)  # js loading page waiting
     html = browser.page_source
     soup = BeautifulSoup(html, 'lxml')
     result = soup.findAll(attrs={"class": htmlTag})
-    print(result) 
+    print(result)
     browser.quit()
     return jsonify(slot=result[0].get_text())
 
