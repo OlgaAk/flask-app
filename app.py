@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 #from webdriver_manager.chrome import ChromeDriverManager
 import time
+import os
 
 GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
@@ -91,13 +92,12 @@ def checkPrice():
 
 @app.route("/doctoravailable", methods=["GET"])
 def doctorAvailable():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.binary_location = GOOGLE_CHROME_PATH
+    chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
+    opts = webdriver.ChromeOptions()
+    opts.binary_location = chrome_bin
     # browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
     browser = webdriver.Chrome(
-        executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+        executable_path="chromedriver", chrome_options=opts)
     #url = request.args.get('url')
     #htmlTag = request.args.get('tag')
     #print(url, htmlTag)
