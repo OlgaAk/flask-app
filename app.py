@@ -98,7 +98,7 @@ chrome_options.binary_location = '/app/.apt/usr/bin/google_chrome'
     #print(url, htmlTag)
     url = "https://gorzdrav.spb.ru/service-free-schedule#%5B%7B%22district%22:%2217%22%7D,%7B%22lpu%22:%22265%22%7D,%7B%22speciality%22:%222080%22%7D,%7B%22doctor%22:%22138%22%7D%5D"
     htmlTag = "datepicker-slot"
-    browser.get(url)
+    browser.get(url) 
     time.sleep(5)  # js loading page waiting
     html = browser.page_source
     soup = BeautifulSoup(html, 'lxml')
