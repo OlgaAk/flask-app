@@ -85,7 +85,7 @@ def checkPrice():
     print(result)
     return jsonify(price=result[0].get_text())
 
-@app.route("/doctoravailable", methods=["POST"])
+@app.route("/doctoravailable", methods=["GET"])
 def doctorAvailable():
     options = Options()
     options.headless = True
