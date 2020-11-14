@@ -89,7 +89,8 @@ def checkPrice():
 def doctorAvailable():
     options = Options()
     options.headless = True
-    browser = webdriver.Chrome(ChromeDriverManager().install())
+    #browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
+    browser = webdriver.Chrome(executable_path="app/.chromedriver/bin/chromedriver")
     #url = request.args.get('url')
     #htmlTag = request.args.get('tag')
     #print(url, htmlTag)
@@ -100,7 +101,7 @@ def doctorAvailable():
     html = browser.page_source
     soup = BeautifulSoup(html, 'lxml')
     result = soup.findAll(attrs={"class": htmlTag})
-    print(result)
+    print(result) 
     browser.quit()
     return jsonify(slot=result[0].get_text())
 
