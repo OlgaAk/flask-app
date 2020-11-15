@@ -95,6 +95,8 @@ def doctorAvailable():
     chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
     opts = webdriver.ChromeOptions()
     opts.binary_location = chrome_bin
+    opts.add_argument('headless')
+    opts.add_argument('disable-gpu')
     # browser = webdriver.Chrome(ChromeDriverManager().install()) doesnt work on heroku
     browser = webdriver.Chrome(
         executable_path="chromedriver", chrome_options=opts)
